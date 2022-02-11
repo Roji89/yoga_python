@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" >
+    <title>{% block title %}{% endblock %}</title>
+</head>
+<body>
+    <h1>Wellcome To our Yoga page</h1>
+    <button><a href="{{ url_for('home')}}">Go to Home page</a></button>
+    <button><a href="{{ url_for('login')}}"> Lets Login</a></button>
+    <button><a href="{{ url_for('courses')}}"> Courses</a></button>
+    {% block content %}{% endblock %}
+    
+</body>
+</html>

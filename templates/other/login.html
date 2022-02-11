@@ -1,0 +1,22 @@
+{% extends 'index.html' %}
+{% block header %}
+  <div class="m-4 text-center">
+    <a href="{{ url_for('login')}}" title="logout">Logout</a>
+  </div>
+{% endblock %}
+{% block content %}
+
+        <h3>Let's LogIn</h3>
+
+        <form method="POST">
+            <p>
+                <label for="username">Username :</label>
+                <input type="text"  name="username" id="username" placeholder="username" required/>
+            </p>
+            <p>
+                <label for="password">Password :</label>
+                <input type="password" name="password" id="password" placeholder="Password" required/>
+            </p>
+            <input type="submit" value="Confirm"/>
+        </form>
+{% endblock %}
