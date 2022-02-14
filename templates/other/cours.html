@@ -1,0 +1,15 @@
+{% extends 'index.html' %} {% block header %}
+<div class="m-4 text-center">
+  <a href="{{ url_for('login')}}" title="logout">Logout</a>
+</div>
+{% endblock %} {% block content %}
+
+<div class="row col-6 card shadow mx-auto">
+  <div class="card-body text-center">
+    <h2>We have "{{cours['Name']}}" cours each "{{cours['Day']}}"</h2>
+    <a href="{{ url_for('courses')}}" class="btn btn-dark mt-2"
+      >go back to All courses</a
+    >
+  </div>
+</div>
+{% endblock %}

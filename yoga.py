@@ -23,7 +23,7 @@ def get_db():
 def init_db():
     db = get_db()
 
-    with current_app.open_resource('yogaSchema.sql') as f:
+    with current_app.open_resource('yoga.sql') as f:
         db.executescript(f.read().decode('utf8'))
 
 @click.command('init-db')
@@ -47,9 +47,12 @@ app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
 @app.route('/', methods=('GET', 'POST')) 
 def welcome():
     return render_template("index.html")
+
+#-------------Home---------------#
 @app.route('/home', methods=('GET', 'POST')) 
 def home():
     return render_template("home.html")
+#-------------Login---------------#
 @app.route('/login', methods=('GET', 'POST'))
 def login():
     error = None
@@ -65,22 +68,22 @@ def login():
         elif not check_password_hash(user['password'], password):
             error = 'Incorrect password.'
             
-        if error is None:
-            session.clear()
-            session['user_id'] = user['id']
+        if user:
             session['username'] = user['username']
             session['password'] = user['password']
-            return render_template('home.html')
+            return render_template('index.html')
 
         flash(error)
 
     return render_template('./other/login.html')
 
-# call the function logout and close the session
+#-------------Logout---------------#
 def logout():
     """deconnection and clear session"""
     session.clear()
     return redirect(url_for('login'))
+
+#-------------Courses---------------#
 
 @app.route('/courses', methods=('GET', 'POST'))
 def courses():
@@ -88,11 +91,25 @@ def courses():
     courses = db.execute('SELECT * FROM cours;').fetchall()
     return render_template('./other/courses.html', courses=courses)
 
-@app.route('/cours/<name>', methods=('GET', 'POST'))
-def cours(name):
+#-------------get one cours---------------#
+
+@app.route('/cours/<int:cours_id>', methods=('GET', 'POST'))
+def cours(cours_id):
     db = get_db()
-    cours = db.execute('SELECT * FROM cours WHERE Name = ?',(name,)).fetchone()
+    cours = db.execute('SELECT * FROM cours WHERE id = ?',(cours_id,)).fetchone()
     if cours is None:
-        abort(404, f"cours name {name} doesn't exist.")
+        abort(404, f"cours id {cours_id} doesn't exist.")
     print(cours)
-    return render_template('cours.html', cours=cours)
+    return render_template('./other/cours.html', cours=cours)
+
+#-------------Delete cours---------------#
+
+@app.route('/delete/<int:cours_id>')
+def delete(cours_id):
+    db = get_db()
+    cours = db.execute('DELETE FROM cours WHERE id = ?',(cours_id,))
+    if not cours:
+        return redirect('./other/courses.html')
+    db.commit()
+
+    return redirect('/')

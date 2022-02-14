@@ -1,34 +1,42 @@
-{% extends 'index.html' %}
-{% block header %}
-  <div class="m-4 text-center">
-    <a href="{{ url_for('login')}}" title="logout">Logout</a>
+{% extends 'index.html' %} {% block header %}
+<div
+  class="m-4 text-center"
+  style="display: flex; flex-direction: column; align-items: center"
+>
+  <a href="{{ url_for('login')}}" title="logout">Logout</a>
+</div>
+{% endblock %} {% block content %}
+
+<div style="display: flex; flex-direction: column; align-items: center">
+  <h1>All of our courses</h1>
+  <div class="m-4">
+    <table class="table">
+      <thead>
+        <tr class="table-primary">
+          <th>cours</th>
+          <th>Name</th>
+          <th>Day</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for cours in courses %}
+        <tr>
+          <td>{{cours['Name']}}</td>
+          <td>{{cours['Day']}}</td>
+          <td>
+            <a href="{{ url_for('cours',cours_id=cours['id'])}}" title="cours"
+              >More</a
+            >
+          </td>
+          <td>
+            <a href="{{ url_for('delete',cours_id=cours['id'])}}" title="cours"
+              >Delete</a
+            >
+          </td>
+        </tr>
+        {% endfor%}
+      </tbody>
+    </table>
   </div>
-{% endblock %}
-{% block content %}
-
-<div>
-    <h1> All of our courses</h1>
-    <div class="m-4">
-        <table class="table">
-            <thead >
-              <tr class="table-primary">
-                <th>ID</th>
-                <th>cours</th>
-                <th>Name</th>
-                <th>Day</th>
-              </tr>
-            </thead>
-            <tbody>
-              {% for cours in courses %}
-                <tr>
-                  <td>{{cours['Id']}}</td>
-                  <td>{{cours['Name']}}</td>
-                  <td>{{cours['Day']}}</td>
-                </tr>
-                {% endfor%}
-
-            </tbody>
-          </table>
-      </div>
 </div>
 {% endblock %}
