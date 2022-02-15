@@ -1,35 +1,22 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, shrink-to-fit=no"
-    />
+{% extends 'index.html' %} {% block header %}
+<div class="m-4 text-center">
+  <a href="{{ url_for('login')}}" title="logout">Logout</a>
+</div>
+{% endblock %} {% block content %}
+<div style="display: flex; flex-direction: column; align-items: center">
+  <h1>Lest's Register</h1>
 
-    <!-- Font-->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <link rel="stylesheet" href="../static/yoga.css" />
-    <title>RojaYoga</title>
-  </head>
-  <body>
-    <section>
-      <h1>Lest's Register</h1>
-
-      <form method="POST">
-        <p>
-          <label for="username">Username:</label>
-          <input type="text" name="username" id="username" autofocus required />
-        </p>
-        <p>
-          <label for="password">Password :</label>
-          <input type="password" name="password" id="password" required />
-        </p>
-        <input type="submit" value="Confirm" />
-        <input type="reset" value="Reset" />
-      </form>
-    </section>
-  </body>
-</html>
+  <form method="POST">
+    <p>
+      <label for="username">Username:</label>
+      <input type="text" name="username" id="username" autofocus required />
+    </p>
+    <p>
+      <label for="password">Password :</label>
+      <input type="password" name="password" id="password" required />
+    </p>
+    <input type="submit" value="Confirm" />
+    <input type="reset" value="Reset" />
+  </form>
+</div>
+{% endblock %}
