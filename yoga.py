@@ -2,7 +2,7 @@ from werkzeug.exceptions import abort
 from typing import Counter
 from flask import Flask, render_template, request, session, redirect, url_for, flash
 import sqlite3
-from werkzeug.security import check_password_hash
+from werkzeug.security import check_password_hash, generate_password_hash
 from flask import current_app, g
 from flask.cli import with_appcontext
 import click
@@ -43,7 +43,6 @@ app.teardown_appcontext(close_db)
 app.cli.add_command(init_db_command)
 app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'    
 
-# Function login for the application
 @app.route('/', methods=('GET', 'POST')) 
 def welcome():
     return render_template("index.html")
@@ -77,6 +76,33 @@ def login():
 
     return render_template('./other/login.html')
 
+#-------------Register---------------#
+@app.route('/register/', methods=('GET', 'POST'))
+def register():
+    """Register function"""
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+        db = get_db()
+        error = None
+
+        if db.execute(
+            'SELECT id FROM user WHERE username = ?', (username,)
+        ).fetchone() is not None:
+            error = 'User {} is already registered.'.format(username)
+
+        if error is None:
+            db.execute(
+                'INSERT INTO user (username, '
+                + 'password)'
+                + 'VALUES (?, ?)',
+                (username,generate_password_hash(password)))
+            db.commit()
+            return render_template('home.html')
+            
+        flash(error)
+
+    return render_template('./other/register.html')
 #-------------Logout---------------#
 def logout():
     """deconnection and clear session"""

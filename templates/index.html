@@ -21,11 +21,20 @@
     <title>{% block title %}{% endblock %}</title>
   </head>
   <body>
-    <div style="display: flex; flex-direction: column; align-items: center">
+    <div
+      style="
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-bottom: 10px;
+      "
+    >
       <h1>Wellcome To our Yoga page</h1>
-      <button><a href="{{ url_for('home')}}">Go to Home page</a></button>
-      <button><a href="{{ url_for('login')}}"> Lets Login</a></button>
-      <button><a href="{{ url_for('courses')}}"> Courses</a></button>
+      <a class="btn btn-dark mt-2" href="{{ url_for('home')}}"
+        >Go to Home page</a
+      >
+      <a class="btn btn-dark mt-2" href="{{ url_for('login')}}"> Lets Login</a>
+      <a class="btn btn-dark mt-2" href="{{ url_for('courses')}}"> Courses</a>
     </div>
     {% block content %}{% endblock %}
   </body>
